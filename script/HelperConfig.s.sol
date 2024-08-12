@@ -36,7 +36,7 @@ contract HelperConfig is Script {
         return NetworkConfig({initialOwner: 0x7Bb8be3D9015682d7AC0Ea377dC0c92B0ba152eF});
     }
 
-    function getAnvilConfig() public returns (NetworkConfig memory) {
+    function getAnvilConfig() public pure returns (NetworkConfig memory) {
         // vm.startBroadcast();
         // vm.stopBroadcast();
 

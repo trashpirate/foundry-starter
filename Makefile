@@ -3,6 +3,7 @@
 
 .PHONY: all test clean deploy
 
+DEFAULT_ANVIL_ADDRESS := 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
 DEFAULT_ANVIL_KEY := 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
 
 all: clean remove install update build
@@ -45,10 +46,10 @@ slither :; slither ./src
 
 # deployment
 deploy-local: 
-	@forge script script/deployment/DeployESC.s.sol:DeployESC --rpc-url $(RPC_LOCALHOST) --private-key ${DEFAULT_ANVIL_KEY} --sender 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 --broadcast 
+	@forge script script/Deploy.s.sol:Deploy --rpc-url $(RPC_LOCALHOST) --private-key ${DEFAULT_ANVIL_KEY} --sender ${DEFAULT_ANVIL_ADDRESS} --broadcast 
 
 deploy: 
-	@forge script script/DeployScript.s.sol:DeployScript --rpc-url $(RPC_TEST) --account <account> --sender <address> --broadcast --verify --etherscan-api-key ${ETHERSCAN_API_KEY} -vvvv
+	@forge script script/Deploy.s.sol:Deploy --rpc-url $(RPC_TEST) --account ${ACCOUNT_NAME} --sender ${ACCOUNT_ADDRESS} --broadcast --verify --etherscan-api-key ${ETHERSCAN_API_KEY} -vvvv
 
 # command line interaction
 contract-call:
