@@ -51,6 +51,19 @@ deploy-local:
 deploy: 
 	@forge script script/Deploy.s.sol:Deploy --rpc-url $(RPC_TEST) --account ${ACCOUNT_NAME} --sender ${ACCOUNT_ADDRESS} --broadcast --verify --etherscan-api-key ${ETHERSCAN_KEY} -vvvv
 
+# verification
+verify:
+	@set -e; \
+	ARGS=$$(cast abi-encode "constructor(params)" param1 param2 ...); \
+	echo "ARGS: $$ARGS"; \
+	forge verify-contract <contract address> src/Contract.sol:Contract \
+	--rpc-url $(RPC_TEST) \
+	--etherscan-api-key ${ETHERSCAN_KEY} \
+	--num-of-optimizations <number of runs> \
+	--compiler-version <solc version: v0.8.26+commit.8a97fa7a> \
+	--constructor-args $$ARGS \
+	-vvvv
+
 # command line interaction
 contract-call:
 	@cast call <contract address> "FunctionSignature(params)(returns)" arguments --rpc-url ${<RPC>}
