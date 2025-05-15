@@ -4,6 +4,9 @@ pragma solidity 0.8.26;
 /*//////////////////////////////////////////////////////////////
                                 IMPORTS
 //////////////////////////////////////////////////////////////*/
+import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 
 /*//////////////////////////////////////////////////////////////
                                INTERFACES
@@ -18,7 +21,7 @@ pragma solidity 0.8.26;
  * @author Nadina Oates
  * @notice
  */
-contract Contract {
+contract Contract is UUPSUpgradeable, OwnableUpgradeable {
     /*//////////////////////////////////////////////////////////////
                                  TYPES
     //////////////////////////////////////////////////////////////*/
@@ -42,14 +45,20 @@ contract Contract {
     /*//////////////////////////////////////////////////////////////
                                FUNCTIONS
     //////////////////////////////////////////////////////////////*/
-    constructor(address owner) {}
+    constructor() {
+        _disableInitializers();
+    }
 
     // receive / fallback functions
 
     /*//////////////////////////////////////////////////////////////
                            EXTERNAL FUNCTIONS
     //////////////////////////////////////////////////////////////*/
-
+    function initialize(address _owner) external {
+        // Initialization logic
+        __Ownable_init(_owner);
+        __UUPSUpgradeable_init();
+    }
     /*//////////////////////////////////////////////////////////////
                             PUBLIC FUNCTIONS
     //////////////////////////////////////////////////////////////*/
@@ -57,6 +66,9 @@ contract Contract {
     /*//////////////////////////////////////////////////////////////
                            INTERNAL FUNCTIONS
     //////////////////////////////////////////////////////////////*/
+    function _authorizeUpgrade(address newImplementation) internal override onlyOwner {
+        // solhint-disable-previous-line no-empty-blocks
+    }
 
     /*//////////////////////////////////////////////////////////////
                            PRIVATE FUNCTIONS
