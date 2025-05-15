@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.20;
+pragma solidity 0.8.26;
 
 import {Script} from "forge-std/Script.sol";
 import {Contract} from "./../src/Contract.sol";
 import {HelperConfig} from "./HelperConfig.s.sol";
+import {Upgrades} from "openzeppelin-foundry-upgrades/Upgrades.sol";
 
 contract Deploy is Script {
     function run() external returns (Contract, HelperConfig) {
