@@ -14,7 +14,7 @@ clean  :; forge clean
 # Remove modules
 remove :; rm -rf .gitmodules && rm -rf .git/modules/* && rm -rf lib && touch .gitmodules && git add . && git commit -m "modules"
 
-install:; forge install foundry-rs/forge-std --no-commit && forge install Cyfrin/foundry-devops --no-commit
+install:; forge install foundry-rs/forge-std && forge install Cyfrin/foundry-devops && forge install Openzeppelin/openzeppelin-contracts
 
 # update dependencies
 update:; forge update
@@ -43,13 +43,17 @@ fork :; @anvil --fork-url ${RPC_MAIN} --fork-block-number <blocknumber> --fork-c
 
 # security
 slither :; slither ./src 
+aderyn :; aderyn .
 
 # deployment
 deploy-local: 
 	@forge script script/Deploy.s.sol:Deploy --rpc-url $(RPC_LOCALHOST) --private-key ${DEFAULT_ANVIL_KEY} --sender ${DEFAULT_ANVIL_ADDRESS} --broadcast 
 
-deploy: 
+deploy-testnet: 
 	@forge script script/Deploy.s.sol:Deploy --rpc-url $(RPC_TEST) --account ${ACCOUNT_NAME} --sender ${ACCOUNT_ADDRESS} --broadcast --verify --etherscan-api-key ${ETHERSCAN_KEY} -vvvv
+
+deploy-mainnet: 
+	@forge script script/Deploy.s.sol:Deploy --rpc-url $(RPC_MAIN) --account ${ACCOUNT_NAME} --sender ${ACCOUNT_ADDRESS} --broadcast --verify --etherscan-api-key ${ETHERSCAN_KEY} -vvvv
 
 # verification
 verify:
